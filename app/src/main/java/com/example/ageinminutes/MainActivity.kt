@@ -3,7 +3,6 @@ package com.example.ageinminutes
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -27,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val year = myCalendar.get(Calendar.YEAR)
         val month = myCalendar.get(Calendar.MONTH)
         val day = myCalendar.get(Calendar.DAY_OF_MONTH)
-        DatePickerDialog(this, {
+        DatePickerDialog(this, R.style.DialogTheme, {
                 _, selectedYear, selectedMonth, selectedDay ->
 
             val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
@@ -38,11 +37,14 @@ class MainActivity : AppCompatActivity() {
 
             val theDate = SimpleDateFormat("dd/MM/yyy", Locale.ENGLISH).parse(selectedDate)
 
-            val diffMillis: Long = myCalendar.timeInMillis - theDate.time
-            val diffMinutes = (diffMillis / 1000) / 60
 
-            val tvSelectedDateInMinutes = findViewById<TextView>(R.id.tvSelectedDateInMinutes)
-            tvSelectedDateInMinutes.text = "$diffMinutes"
+            if(theDate != null){
+                val diffMillis: Long = myCalendar.timeInMillis - theDate.time
+                val diffMinutes = (diffMillis / 1000) / 60
+
+                val tvSelectedDateInMinutes = findViewById<TextView>(R.id.tvSelectedDateInMinutes)
+                tvSelectedDateInMinutes.text = "$diffMinutes"
+            }
 
         }, year, month, day).show()
     }
